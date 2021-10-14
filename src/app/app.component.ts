@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AlertService } from './core/services/alert.service';
 import { AuthService } from './core/services/auth.service';
 
 @Component({
@@ -7,7 +8,7 @@ import { AuthService } from './core/services/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(private authService:AuthService){
+  constructor(private authService:AuthService, private alertService:AlertService){
     this.authService.initAuthListener();
   }
   title = 'income-outcome-app';

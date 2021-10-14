@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { from, Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { from, Subscription } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { AppState } from 'src/app/store/app.reducer';
+import * as authActions from 'src/app/store/auth.actions';
 import Swal from 'sweetalert2';
 import { User } from '../models/user.model';
 import { AlertService } from './alert.service';
@@ -11,17 +14,24 @@ import { AlertService } from './alert.service';
   providedIn: 'root'
 })
 export class AuthService {
-
-  constructor(private auth:AngularFireAuth, private alertService:AlertService, private firestore:AngularFirestore) { }
+  userSubs:any;
+  constructor(private auth:AngularFireAuth, private alertService:AlertService, private firestore:AngularFirestore, private store:Store<AppState>) { }
 
   initAuthListener(){
-    this.auth.authState.subscribe((fUser)=>{
-        console.log({fUser});
+    this.auth.authState
+    .subscribe((fUser)=>{
+      if(fUser){
+       this.userSubs = this.firestore.doc(`${fUser.uid}/user`).valueChanges().subscribe((user:any)=>{
+          this.store.dispatch(authActions.setUser({user:User.fromFirebase(user)}));
+          this.userSubs.unsubscribe();
+        });
+      }else{
+        this.store.dispatch(authActions.unsetUser());
+      } 
     });
   }
 
   createUser(name:string,email:string,password:string){
-    this.alertService.loadingAlert('Registering in...');
     return from(this.auth.createUserWithEmailAndPassword(email, password)).pipe(
       tap(() => { 
       Swal.close();
@@ -41,9 +51,7 @@ export class AuthService {
   }
 
   login(email:string,password:string){
-    this.alertService.loadingAlert('Loging in...');
     return from(this.auth.signInWithEmailAndPassword(email, password)).pipe(
-      tap(() => { Swal.close() }),
       catchError(err => {
         this.alertService.errorAlert(err);
         throw new Error(err.message);

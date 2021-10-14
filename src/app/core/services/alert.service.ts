@@ -1,15 +1,23 @@
-import { Injectable } from '@angular/core';
-import { from } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { AppState } from 'src/app/store/app.reducer';
 import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AlertService {
-
-  constructor() { }
-
-  loadingAlert(text:string){
+export class AlertService  implements OnDestroy{
+  loadingSubs:Subscription;
+  constructor(private store:Store<AppState>) {
+     this.store.select('ui').subscribe((ui) => {
+      ui.isLoading ? this.loadingAlert('Loading...') : Swal.close();
+    }); 
+  }
+  ngOnDestroy() {
+    this.loadingSubs.unsubscribe();
+  }
+  private loadingAlert(text:string){
   Swal.fire({
         title:text,
         timer: 10000,
@@ -22,8 +30,8 @@ export class AlertService {
         }
     })
   }
-
   errorAlert(err){
+    Swal.close();
     Swal.fire({
       icon: 'error',
       title: 'Oops...',
