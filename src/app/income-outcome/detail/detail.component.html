@@ -7,25 +7,25 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th>Descripción</th>
-                  <th>Monto</th>
-                  <th>Tipo</th>
+                  <th *ngFor="let header of headers"><span [ngStyle]="{'color': orderBy === header.key ? 'blue': 'black'}" (click)="switchCriteria(header.key)" class="span-header" >{{header.label}}</span><i [class]=" header.order === 'descendant' ? 'fas fa-arrow-down' : 'fas fa-arrow-up'" (click)="switchOrder()"></i> </th>
                   <th></th>
                 </tr>
               </thead>
-
-              <tbody>
-                <tr>
-                  <td>Descripción</td>
-                  <td>Monto</td>
-                  <td>Tipo</td>
-                  <td>acciones</td>
+              <tbody *ngIf="incomesOutcomes">
+                <tr *ngFor="let item of incomesOutcomes | orderItems : orderBy : order ; let i = index">
+                  <td>{{item.description}}</td>
+                  <td>{{item.amount}}$</td>
+                  <td [ngClass]="{'text-success':item.type === 'income','text-danger': item.type === 'outcome'}" >{{item.type}}</td>
+                  <td>
+                    <button type="button" class="btn btn-danger text-center" (click)="remove(item.uid)">
+                      <i class="fa fa-trash"></i>
+                      Delete
+                       <i class="bi bi-arrow-down-short"></i> 
+                    </button>
+                  </td>
                 </tr>
               </tbody>
-
             </table>
-
-
           </div>
         </div>
     </div>

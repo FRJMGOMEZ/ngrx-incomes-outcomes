@@ -27,15 +27,15 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadingSubs = this.store.select('ui').subscribe((ui)=>{
-    this.loading = ui.authLoading;
+    this.loading = ui.btnLoading;
     });
   }
   login(){
     const {email,password} = this.loginForm.value;
-    this.store.dispatch(uiActions.isLoading())
+    this.store.dispatch(uiActions.btnLoading())
     this.authService.login(email,password).subscribe((res)=>{
       this.router.navigate(['/']).then(()=>{
-        this.store.dispatch(uiActions.stopLoading());
+        this.store.dispatch(uiActions.btnLoadingStop());
       });   
     });
   }

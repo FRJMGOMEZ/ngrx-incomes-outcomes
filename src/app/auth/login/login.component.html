@@ -36,11 +36,7 @@
                   <button [disabled]="loginForm.invalid" class="btn btn-primary submit-btn btn-block" type="submit">Login</button>
                 </div>
 
-                <div class="form-group" *ngIf="loading">
-                  <button disabled class="btn btn-primary submit-btn btn-block" type="submit">
-                    <i class="fa fa-spin fa-sync"></i> Loading...
-                  </button>
-                </div>
+                <app-btn-loading *ngIf="loading"></app-btn-loading>
                 
                 <div class="text-block text-center my-3">
                   <span class="text-small font-weight-semibold">No estas registrado? </span>

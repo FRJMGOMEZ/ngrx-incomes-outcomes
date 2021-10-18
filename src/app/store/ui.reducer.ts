@@ -2,20 +2,20 @@ import { createReducer, on } from '@ngrx/store';
 import * as lActions from './ui.actions';
 
 export interface State {
-    isLoading: boolean; 
-    authLoading:boolean;
+    btnLoading: boolean; 
+    modalLoading:boolean;
 }
 
 export const initialState: State = {
-   isLoading: false,
-   authLoading:false
+   btnLoading: false,
+   modalLoading:false
 }
 
 const _uiReducer = createReducer(initialState,
-    on(lActions.authIsLoading, state => ({ ...state, authLoading: true })),
-    on(lActions.authStopLoading, state => ({ ...state, authLoading: false })),
-    on(lActions.isLoading, state => ({ ...state, authLoading: true})),
-    on(lActions.stopLoading, state => ({ ...state, authLoading: false})),
+    on(lActions.modalLoading, state => ({ ...state, modalLoading: true })),
+    on(lActions.modalLoadingStop, state => ({ ...state, modalLoading: false })),
+    on(lActions.btnLoading, state => ({ ...state, btnLoading: true})),
+    on(lActions.btnLoadingStop, state => ({ ...state, btnLoading: false})),
 );
 
 export function uiReducer(state, action) {

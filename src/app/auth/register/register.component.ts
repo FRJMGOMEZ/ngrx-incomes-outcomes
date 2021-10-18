@@ -28,16 +28,16 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadingSubs = this.store.select('ui').subscribe((ui)=>{
-       this.loading = ui.authLoading;
+       this.loading = ui.btnLoading;
      });
   }
 
   createUser(){
-    this.store.dispatch(uiActions.isLoading());
+    this.store.dispatch(uiActions.btnLoading());
     const {name,email,password} = this.registerForm.value; 
     this.authService.createUser(name, email, password).subscribe(credentials => {
         this.router.navigate(['/']);
-        this.store.dispatch(uiActions.stopLoading());
+        this.store.dispatch(uiActions.btnLoadingStop());
     })
   }
   ngOnDestroy(){

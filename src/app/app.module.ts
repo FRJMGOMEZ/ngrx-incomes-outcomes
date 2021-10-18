@@ -16,6 +16,9 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { appReducers } from './store/app.reducer';
+import { IncomeOutcomeModule } from './income-outcome/income-outcome.module';
+import { SharedModule } from './shared/shared.module';
+
 
 @NgModule({
   declarations: [
@@ -38,6 +41,9 @@ import { appReducers } from './store/app.reducer';
       logOnly: environment.production, // Restrict extension to log-only mode
       autoPause: true, // Pauses recording actions and state changes when the extension window is not open
     }),
+    IncomeOutcomeModule,
+    SharedModule
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

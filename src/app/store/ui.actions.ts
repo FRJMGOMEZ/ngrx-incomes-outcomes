@@ -1,6 +1,6 @@
 import { createAction } from '@ngrx/store';
 
-export const isLoading = createAction('[Layout Component] start loading');
-export const stopLoading = createAction('[Layout Component]  stop loading');
-export const authIsLoading = createAction('[Layout Component] start loading');
-export const authStopLoading = createAction('[Layout Component]  stop loading')
+export const modalLoading = createAction('[UI] when using the loading modal');
+export const modalLoadingStop = createAction('[UI]  when the loading modal must close beacuse the load has ended');
+export const btnLoading = createAction('[UI] when using the loading button in component');
+export const btnLoadingStop = createAction('[UI] when the loading button stops because the load has ended');

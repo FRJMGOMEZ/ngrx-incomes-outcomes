@@ -9,9 +9,13 @@ import Swal from 'sweetalert2';
 })
 export class AlertService  implements OnDestroy{
   loadingSubs:Subscription;
+  loading:boolean = false;
   constructor(private store:Store<AppState>) {
      this.store.select('ui').subscribe((ui) => {
-      ui.isLoading ? this.loadingAlert('Loading...') : Swal.close();
+      if(ui.modalLoading !== this.loading){
+        ui.modalLoading ? this.loadingAlert('Loading...') : Swal.close();
+        this.loading = ui.modalLoading;
+      }
     }); 
   }
   ngOnDestroy() {
@@ -38,5 +42,13 @@ export class AlertService  implements OnDestroy{
       text: err.message,
       footer: '<a href="">Why do I have this issue?</a>'
     });
+  }
+
+  succesAlert(message:string,description:string=''){
+    Swal.fire(
+       message,
+      description,
+      'success'
+    )
   }
 }
