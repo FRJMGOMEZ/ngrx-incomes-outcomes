@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { IncomeOutcomeService } from '../core/services/income-outcome.service';
 import { AppState } from '../store/app.reducer';
-import * as incomesOutcomesActions from '../store/incomes-outcomes.actions';
+import * as incomesOutcomesActions from '../income-outcome/store/incomes-outcomes.actions';
 
 @Component({
   selector: 'app-dashboard',

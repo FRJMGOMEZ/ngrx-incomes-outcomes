@@ -11,7 +11,7 @@ export class AlertService  implements OnDestroy{
   loadingSubs:Subscription;
   loading:boolean = false;
   constructor(private store:Store<AppState>) {
-     this.store.select('ui').subscribe((ui) => {
+    this.loadingSubs = this.store.select('ui').subscribe((ui) => {
       if(ui.modalLoading !== this.loading){
         ui.modalLoading ? this.loadingAlert('Loading...') : Swal.close();
         this.loading = ui.modalLoading;

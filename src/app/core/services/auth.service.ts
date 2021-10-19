@@ -5,8 +5,8 @@ import { Store } from '@ngrx/store';
 import { from, Subscription } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { AppState } from 'src/app/store/app.reducer';
-import * as authActions from 'src/app/store/auth.actions';
-import * as incomesOutcomesActions from '../../store/incomes-outcomes.actions';
+import * as authActions from 'src/app/auth/store/auth.actions';
+import * as incomesOutcomesActions from '../../income-outcome/store/incomes-outcomes.actions';
 import Swal from 'sweetalert2';
 import { User } from '../models/user.model';
 import { AlertService } from './alert.service';
@@ -41,7 +41,7 @@ export class AuthService implements OnDestroy {
         });
       }else{
        this.cleanStore();
-        this.userSubs.unsubscribe();
+        this.userSubs?.unsubscribe();
       } 
     });
   }

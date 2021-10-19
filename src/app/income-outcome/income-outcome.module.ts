@@ -6,6 +6,9 @@ import { SharedModule } from '../shared/shared.module';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { DetailComponent } from './detail/detail.component';
 import { ChartsModule } from 'ng2-charts';
+import { IncomeOutcomeRoutingModule } from './income-outcome-routing.module';
+import { StoreModule } from '@ngrx/store';
+import { incomesOutcomesReducer } from './store/incomes-outcomes.reducer';
 
 
 @NgModule({
@@ -19,12 +22,9 @@ import { ChartsModule } from 'ng2-charts';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    ChartsModule
-  ],
-  exports:[
-    IncomeOutcomeComponent,
-    StatisticsComponent,
-    DetailComponent
+    ChartsModule,
+    IncomeOutcomeRoutingModule,
+    StoreModule.forFeature('incomesOutcomes',incomesOutcomesReducer)
   ]
 })
 export class IncomeOutcomeModule { }

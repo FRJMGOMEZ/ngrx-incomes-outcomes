@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { AppState } from 'src/app/store/app.reducer';
 import * as uiActions from 'src/app/store/ui.actions';
@@ -32,16 +33,22 @@ export class RegisterComponent implements OnInit {
      });
   }
 
+  ngOnDestroy() {
+    this.loadingSubs.unsubscribe();
+  }
+
   createUser(){
     this.store.dispatch(uiActions.btnLoading());
     const {name,email,password} = this.registerForm.value; 
-    this.authService.createUser(name, email, password).subscribe(credentials => {
+    this.authService.createUser(name, email, password)
+    .pipe(catchError((err) => {
+        this.store.dispatch(uiActions.btnLoadingStop());
+        return null
+    }))
+    .subscribe(credentials => {
         this.router.navigate(['/']);
         this.store.dispatch(uiActions.btnLoadingStop());
     })
-  }
-  ngOnDestroy(){
-    this.loadingSubs.unsubscribe();
   }
 
 }
